@@ -1,12 +1,14 @@
 
 import axios from 'axios'
 import { useFormik } from 'formik'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from "yup" 
+import { AuthContext } from '../../ContextAuth/ContextAuth'
 
 export default function Login() {
-    let [errorMessage,setError]=useState(null)
+    let [errorMessage,setError]=useState(null);
+    let {setToken,jwtDecodeData}=useContext(AuthContext);
     const baseUrl="https://ecommerce.routemisr.com";
     let navg =useNavigate();
 
@@ -32,7 +34,12 @@ export default function Login() {
         .then((req)=>{
             console.log(req);
             if (req.data.message=="success"){
-                navg("/")
+              setToken(req.data.token);
+              localStorage.setItem("token",req.data.token);
+              jwtDecodeData(req.data.token);
+              console.log(req.data.token);
+              
+                navg("/"); 
             }
             
         }).catch((err)=>{

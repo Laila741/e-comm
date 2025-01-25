@@ -15,16 +15,17 @@ import Category from "./Component/Category/Category.jsx"
 import Brands from "./Component/Brands/Brands.jsx"
 import ForgetPassword from "./Component/ForgetPassword/ForgetPassword.jsx"
 import UpdatePassword from "./Component/UpdatePassword/UpdatePassword.jsx"
+import ContextAuthProvider from "./ContextAuth/ContextAuth.jsx"
+import ProtectedRouting from "./Component/ProtectedRouting.jsx"
 
-NotFound
 function App() {
  let router= createBrowserRouter([
     {path:'',element:<Layout/>,children:[
-      {index:true,element:<Home/>},
-      {path:'Cart',element:<Cart/>},
-      {path:'products',element:<Products/>},
-      {path:'categor',element:<Category/>},
-      {path:'brands',element:<Brands/>},
+      {index:true,element:<ProtectedRouting><Home/></ProtectedRouting>},
+      {path:'Cart',element:<ProtectedRouting><Cart/></ProtectedRouting>},
+      {path:'products',element:<ProtectedRouting><Products/></ProtectedRouting>},
+      {path:'category',element:<ProtectedRouting><Category/></ProtectedRouting>},
+      {path:'brands',element:<ProtectedRouting><Brands/></ProtectedRouting>},
       {path:'SignUp',element:<SigneUp/>},
       {path:'login',element:<Login/>},
       {path:'forgetpassword',element:<ForgetPassword/>},
@@ -35,7 +36,10 @@ function App() {
 
   return (
     <>
-     <RouterProvider router={router}></RouterProvider>
+    <ContextAuthProvider>
+    <RouterProvider router={router}></RouterProvider>
+    </ContextAuthProvider>
+   
     </>
   )
 }

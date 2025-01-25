@@ -1,8 +1,19 @@
 import React from 'react'
 import logoImage from "../../assets/images/freshcart-logo.svg"
 import "flowbite/dist/flowbite.js"
-import { Link,NavLink } from 'react-router-dom'
+import { Link,NavLink, useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { AuthContext } from '../../ContextAuth/ContextAuth'
 export default function Navbar() {
+  let {Token,setToken,userD}=useContext(AuthContext);
+  console.log(userD);
+  
+  let navg=useNavigate();
+  function Logout(){
+    localStorage.removeItem("token");
+    setToken(null)
+    navg("/login")
+  }
   return (
     <>
 <nav className="bg-white border-gray-200  shadow">
@@ -23,7 +34,7 @@ export default function Navbar() {
   </div>
     <div className="items-center w-full  bg-white justify-between hidden  md:flex md:w-auto md:order-1" id="navbar-search">
       
-      <ul className="flex flex-col p-4 w-12/12 md:w-4/12  md:p-0 mt-4 font-medium border  border-gray-100 rounded-lg  md:space-x-3 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white ">
+      {Token?<ul className="flex flex-col p-4 w-12/12 md:w-4/12  md:p-0 mt-4 font-medium border  border-gray-100 rounded-lg  md:space-x-3 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white ">
         <li>
           <NavLink
            to="/" className="block py-2 px-3 text-white bg-green-700 rounded md:bg-transparent  md:p-0 active" aria-current="page">Home</NavLink>
@@ -50,8 +61,10 @@ export default function Navbar() {
           
         </li>
         
-      </ul>
-       <ul  className="flex  w-12/12 md:w-4/12 flex-col p-4 md:p-0  mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white ">
+      </ul>:""}
+
+
+       <ul  className="flex ms-auto w-12/12 md:w-4/12 flex-col p-4 md:p-0  mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white ">
         <li>
         <i className="fa-brands fa-facebook"></i>
         </li>
@@ -64,15 +77,20 @@ export default function Navbar() {
         <li>
         <i className="fa-brands fa-linkedin"></i>
         </li>
+        {Token?<><li>
+        <Link to ="/login" onClick={Logout}className=" rounded-full bg-active p-2  ">Logout</Link>
+        
+        </li>
         <li>
+          
+          <span >Hello </span></li></>:<><li>
           <Link to="/SignUp"className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-green-700 md:p-0  md:dark:hover:text-green-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">SignUP</Link>
         </li>
         <li>
           <Link to="/login"className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-green-700 md:p-0  md:dark:hover:text-green-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Login</Link>
-        </li>
-        <li>
-        <Link to ="/login" className=" rounded-full bg-active p-2 ">Logout</Link>
-        </li>
+        </li></>}
+        
+        
       
 
       </ul>
