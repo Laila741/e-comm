@@ -17,12 +17,14 @@ import ForgetPassword from "./Component/ForgetPassword/ForgetPassword.jsx"
 import UpdatePassword from "./Component/UpdatePassword/UpdatePassword.jsx"
 import ContextAuthProvider from "./ContextAuth/ContextAuth.jsx"
 import ProtectedRouting from "./Component/ProtectedRouting.jsx"
+import ProductDetails from "./Component/ProductDetails/ProductDetails.jsx"
 
 function App() {
  let router= createBrowserRouter([
     {path:'',element:<Layout/>,children:[
       {index:true,element:<ProtectedRouting><Home/></ProtectedRouting>},
       {path:'Cart',element:<ProtectedRouting><Cart/></ProtectedRouting>},
+      {path:'ProductDetails/:id',element:<ProtectedRouting><ProductDetails/></ProtectedRouting>},
       {path:'products',element:<ProtectedRouting><Products/></ProtectedRouting>},
       {path:'category',element:<ProtectedRouting><Category/></ProtectedRouting>},
       {path:'brands',element:<ProtectedRouting><Brands/></ProtectedRouting>},

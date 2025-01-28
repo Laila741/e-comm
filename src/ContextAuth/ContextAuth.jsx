@@ -4,7 +4,7 @@ import { data } from 'react-router-dom';
 export let AuthContext=createContext();
 export default function ContextAuthProvider({children}) {
     let [Token, setToken]=useState(null);
-    let [userD, setUser]=useState(null)
+    let [user, setUser]=useState(null)
     useEffect(()=>{
         let tokenStorage=localStorage.getItem("token")
         if(localStorage.getItem("token")){
@@ -22,6 +22,6 @@ export default function ContextAuthProvider({children}) {
         
     }
   return (
-    <AuthContext.Provider value={{Token,setToken,userD,jwtDecodeData}}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{Token,setToken,user,jwtDecodeData}}>{children}</AuthContext.Provider>
   )
 }
