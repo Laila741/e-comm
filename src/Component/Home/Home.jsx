@@ -1,17 +1,30 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MainSlider from '../MainSlider/MainSlider';
 import CategorySlider from '../CategorySlider/CategorySlider';
 import { Link } from 'react-router-dom';
+import { cartContext } from '../../ContextAuth/CartcontextProvider';
 
 
 
 export default function Home() {
+   let {ChangeCart}=useContext(cartContext)
   const baseUrl="https://ecommerce.routemisr.com";
   let [AllProduct,SetAllProduct]=useState(null)
   let [numPage,setnumPage]=useState (null)
   let [loading,setloading]=useState (true)
+  async function  AddToCard(productid){
+    let response=await ChangeCart(productid)
+   
+    console.log(response)
 
+    if (response?.data?.status==="success"){
+    toast.success("product added to cart Successfly",)
+     console.log(response)
+    }else{
+     toast.error("product not added to cart")
+    }
+   }
   function GetALLproduct(page=1){
     setloading(true)
     axios.get(`${baseUrl}/api/v1/products?limit=25&page=${page}`).then((req)=>{
@@ -56,18 +69,22 @@ export default function Home() {
         
         <div key={product._id} className="lg:w-2/12 md:w-3/12 sm:w-6/12 w-full px-3">
     
-           <Link to={`/ProductDetails/${product._id}`}>
+           
            <div className="item  group p-3 overflow-hidden hover:border hover:border-active">
+           <Link to={`/ProductDetails/${product._id}`}>
                <img src={product.imageCover} alt={product.title} className="w-full" />
+               </Link>
                <h5 className="text-active " >{product.category.name}</h5>
                <h2 > {product.title.split(" ").slice(0,2).join(" ")}</h2>
                <div className='flex justify-between'>
                  <span>{product.price}</span>
                  <span><i className='fa-solid fa-star text-yellow-500'></i>{product.ratingsAverage}</span>
                </div>
-               <button className='btn duration-500 translate-y-44 group-hover:translate-y-0'>add to cart</button>
+               <button onClick={()=>{
+                AddToCard(product._id)
+               }} className='btn duration-500 translate-y-44 group-hover:translate-y-0'>add to cart</button>
             </div>
-           </Link>
+          
 
         </div>
       )

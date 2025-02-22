@@ -1,22 +1,25 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react'
-import { data } from 'react-router-dom';
+// import { data } from 'react-router-dom';
 export let AuthContext=createContext();
 export default function ContextAuthProvider({children}) {
     let [Token, setToken]=useState(null);
     let [user, setUser]=useState(null)
     useEffect(()=>{
         let tokenStorage=localStorage.getItem("token")
+        
+        console.log(tokenStorage)
         if(localStorage.getItem("token")){
            setToken(tokenStorage)
            jwtDecodeData(tokenStorage);
         }
     },[])
     function jwtDecodeData(x){
-        if(Token!=null){
+        if(Token!==null){
             let dataDecode=jwtDecode(x);
             console.log(dataDecode);
-            setUser(dataDecode)
+            setUser(dataDecode.name)
+    
         }
        
         

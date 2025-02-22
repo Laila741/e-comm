@@ -1,11 +1,27 @@
 
 import axios from 'axios';
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useState } from 'react';
-import { useParams, useSubmit } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Slider from 'react-slick';
+import Products from '../Products/Products';
+import { cartContext } from '../../ContextAuth/CartcontextProvider';
+import toast from 'react-hot-toast';
 
 export default function ProductDetails() {
+     let {ChangeCart}=useContext(cartContext)
+     async function  AddToCard(productid){
+      let response=await ChangeCart(productid)
+      
+      console.log(response)
+    
+      if (response?.data?.status==="success"){
+      toast.success("product added to cart Successfly",)
+       console.log(response)
+      }else{
+       toast.error("product not added to cart")
+      }
+     }
     var settings = {
         dots: true,
         infinite: true,
@@ -53,10 +69,16 @@ export default function ProductDetails() {
                  <span>{Product?.price}</span>
                  <span><i className='fa-solid fa-star text-yellow-500'></i>{Product?.ratingsAverage}</span>
                </div>
-               <button className='btn duration-500 '>add to cart</button>
+               <button onClick={()=>AddToCard(Product._id)}className='btn duration-500 '>add to cart</button>
         </div>
         </div>
+           
+
+
+           
    </div>
+   <h1 className='text-center font-bold py-10 text-3xl text-active uppercase '> Another product </h1>
+        <Products/>
         
         </>
   )
