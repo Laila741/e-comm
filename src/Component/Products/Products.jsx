@@ -9,7 +9,7 @@ import { WishlistContext } from '../../ContextAuth/ContextWishlistProvider';
 
 export default function Products() {
    let {ChangeCart}=useContext(cartContext)
-   let {AddWhishlist}=useContext(WishlistContext)
+   
 
     const baseUrl="https://ecommerce.routemisr.com";
     let [AllProduct,SetAllProduct]=useState(null)

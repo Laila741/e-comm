@@ -8,7 +8,7 @@ export default function SigneUp() {
     let [errorMessage,setError]=useState(null)
     const baseUrl="https://ecommerce.routemisr.com";
     let navg =useNavigate();
-
+let[subload,setSubload]=useState(false)
     let validYup=Yup.object({
       name:Yup.string().required("name required").min(3,"min char3").max(8,"max char 8 "),
       email:Yup.string().required("email is required").email("enter valid email"),
@@ -29,6 +29,7 @@ export default function SigneUp() {
        validationSchema:validYup,
     });
     function RegisterApi(data){
+      setSubload(false)
         axios.post(`${baseUrl}/api/v1/auth/signup`,data)
         .then((req)=>{
             console.log(req);
@@ -38,6 +39,7 @@ export default function SigneUp() {
             
         }).catch((err)=>{
             setError(err.response.data.message);
+            setSubload(true)
         });
     }
 
@@ -45,7 +47,7 @@ export default function SigneUp() {
     <>
 
     <h1 className="text-center p-7 font-bold text-3xl ">Register Now</h1>
-    <div className='w-8/12 m-auto rounded-md drop-shadow-md shadow-active shadow p-10'>
+    <div className='w-8/12 m-auto rounded-md drop-shadow-md shadow-active shadow p-10 mb-12'>
     {
         errorMessage?(<div className="p-4  mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
         {errorMessage}
@@ -104,12 +106,15 @@ export default function SigneUp() {
  
   <button
   disabled={(!regiserForm.isValid && regiserForm.dirty)}
-   type="submit" className="text-white bg-active  focus:ring-4 focus:outline-none focus:ring-active  font-semibold rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-active dark:hover:bg-active dark:focus:ring-active disabled:bg-active disabled: bg-opacity-35">Login</button>
+  type="submit" className="text-white bg-active hover:bg-active focus:ring-4 focus:outline-none focus:ring-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-active dark:hover:bg-active dark:focus:ring-active disabled:bg-active disabled: bg-opacity-35">Login</button>
+  {/* <button
+ type="submit" className="text-white bg-active  focus:ring-4 focus:outline-none focus:ring-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-active dark:hover:bg-active dark:focus:ring-active disabled:bg-active "> {subload?<i className='fas fa-spinner fa-spin'></i>:"Register" }</button> */}
+<br />
+
 </form>
     </div>
     
     
-
 
 
     </>

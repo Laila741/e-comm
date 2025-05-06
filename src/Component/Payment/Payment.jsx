@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 export default function Payment() {
     let navg=useNavigate()
+     
    let [cash,setCash]= useState(false)
     let {cartId}=useContext(cartContext)
     let Formpament=useFormik({
@@ -34,6 +35,7 @@ if (cash){
     axios.post(`https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5174`,formValue,{headers:{
         token:localStorage.getItem("token")
     }}).then((res)=>{
+
         window.open(res.data.session.url,"_self")
         console.log(res.data.session.url)
     }).catch((err)=>{
